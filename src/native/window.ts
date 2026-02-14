@@ -105,7 +105,7 @@ export function createMainWindow() {
 
   // rebind zoom controls to be more sensible
   mainWindow.webContents.on("before-input-event", (event, input) => {
-    if (input.control && input.key === "=") {
+    if (input.control && input.key === "+") {
       // zoom in (+)
       event.preventDefault();
       mainWindow.webContents.setZoomLevel(
@@ -117,6 +117,17 @@ export function createMainWindow() {
       mainWindow.webContents.setZoomLevel(
         mainWindow.webContents.getZoomLevel() - 1,
       );
+    } else if (input.control && input.key === "0") {
+      // reset zoom (0)
+      event.preventDefault();
+      mainWindow.webContents.setZoomLevel(0);
+    } else if (input.control && input.shift && input.key.toLowerCase() == "i") {
+      // enable developer tools (control + shift + i)
+      event.preventDefault();
+      mainWindow.webContents.toggleDevTools();
+    } else if (input.alt && input.key === "F4") {
+      // quit app when alt + f4 pressed
+      app.quit();
     }
   });
 
